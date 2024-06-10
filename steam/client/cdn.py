@@ -780,6 +780,11 @@ class CDNClient(object):
         def async_fetch_manifest(
             app_id, depot_id, manifest_gid, decrypt, depot_name, branch_name, branch_pass
         ):
+            if isinstance(manifest_gid, dict):
+                # For some depots, Steam has started returning a dict
+                # {"public": {"gid": GID, "size": ..., "download": ...}, ...}
+                # instead of a simple map {"public": GID, ...}
+                manifest_gid = manifest_gid['gid']
             try:
                 manifest_code = self.get_manifest_request_code(
                     app_id, depot_id, int(manifest_gid), branch_name, branch_pass
