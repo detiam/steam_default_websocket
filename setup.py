@@ -26,6 +26,7 @@ install_extras = {
         'gevent>=1.3.0',
         'protobuf~=3.0',
         'gevent-eventemitter~=2.1',
+        'wsproto~=1.2.0',
     ],
 }
 
