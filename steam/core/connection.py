@@ -177,6 +177,7 @@ class WebsocketConnection(Connection):
         self.ws = WSConnection(ConnectionType.CLIENT)
         self.ssl_ctx = ssl.create_default_context(cafile=certifi.where())
         self.event_wsdisconnected = event.Event()
+        self._readbuf = b''
 
     def _new_socket(self):
         self.raw_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -233,7 +234,9 @@ class WebsocketConnection(Connection):
                     return
                 
                 logger.debug("Received {} bytes".format(len(data)))
-                self.ws.receive_data(data)
+                self._readbuf += data
+                self.ws.receive_data(self._readbuf)
+                self._readbuf = b''
                 self._handle_events()
     
     def _handle_events(self):
