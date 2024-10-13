@@ -1,6 +1,6 @@
 import logging
 from eventemitter import EventEmitter
-from steam.steamid import SteamID, intBase
+from steam.steamid import SteamID
 from steam.enums import EResult, EFriendRelationship
 from steam.enums.emsg import EMsg
 from steam.core.msg import MsgProto
@@ -156,7 +156,7 @@ class SteamFriendlist(EventEmitter):
         """
         m = MsgProto(EMsg.ClientAddFriend)
 
-        if isinstance(steamid_or_accountname_or_email, (intBase, int)):
+        if isinstance(steamid_or_accountname_or_email, (int, int)):
             m.body.steamid_to_add = steamid_or_accountname_or_email
         elif isinstance(steamid_or_accountname_or_email, SteamUser):
             m.body.steamid_to_add = steamid_or_accountname_or_email.steam_id
